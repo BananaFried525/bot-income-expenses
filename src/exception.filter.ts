@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import {
   ExceptionFilter,
   Catch,
@@ -9,6 +10,7 @@ import { ResponseData } from './interfaces/response-data.interface';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  private logger = new Logger(AllExceptionsFilter.name);
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
@@ -25,10 +27,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
         : 'Internal Server Error';
 
     const ret: ResponseData = {
-      message: `${message['message']}`,
+      message: `${message['error'] ? message['error'] : message['message']}`,
       statusCode: status,
-      result: {},
+      result: {
+        message: `${message['message']}`,
+      },
     };
+    this.logger.error(JSON.stringify(ret));
     response.status(status).json(ret);
   }
 }

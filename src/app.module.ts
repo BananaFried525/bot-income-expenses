@@ -1,4 +1,4 @@
-import { AppController } from './app.controller';
+import { LineModule } from './line/line.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './exception.filter';
 import { Module } from '@nestjs/common';
@@ -7,12 +7,13 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    LineModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
     {
       provide: APP_FILTER,
