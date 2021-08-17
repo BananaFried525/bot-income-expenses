@@ -4,16 +4,20 @@ import { AllExceptionsFilter } from './exception.filter';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseConfigSerivce } from './db/mongo.db';
 
 @Module({
   imports: [
-    LineModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MongooseModule.forRootAsync({
+      useClass: MongooseConfigSerivce,
+    }),
+    LineModule,
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_FILTER,

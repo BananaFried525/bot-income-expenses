@@ -7,6 +7,7 @@ import { ClientService } from 'src/services/client.service';
 export class PostbackService implements EventHandle {
   private logger = new Logger(PostbackService.name);
   constructor(private clientService: ClientService) {}
+
   async handle(event: PostbackEvent): Promise<any> {
     return () => console.log(event['postback']);
   }

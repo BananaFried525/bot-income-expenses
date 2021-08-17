@@ -17,4 +17,8 @@ export class ClientService {
   async push(userId: string, message: Message) {
     await this.client.pushMessage(userId, message);
   }
+
+  async getProfile(userId: string) {
+    return this.client.getProfile(userId);
+  }
 }

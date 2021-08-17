@@ -1,10 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { WebhookEvent } from '@line/bot-sdk';
 import { MessageService } from './handle/message.service';
 import { PostbackService } from './handle/postback.service';
 import { EventHandleList } from 'src/interfaces/event-handle.interface';
-import { MessageHandle } from 'src/interfaces/message-handle.interface';
+import { FollowService, UnFollowService } from './handle/subscribe.service';
 
 @Injectable()
 export class BotHandleService {
@@ -13,12 +12,14 @@ export class BotHandleService {
   constructor(
     private readonly messageService: MessageService,
     private readonly postbackService: PostbackService,
+    private readonly followService: FollowService,
+    private readonly unFollowService: UnFollowService,
   ) {
     this.lineEvent = {
       message: this.messageService,
       //   unsend: 'unsend',
-      //   follow: 'follow',
-      //   unfollow: 'unfollow',
+      follow: this.followService,
+      unfollow: this.unFollowService,
       //   join: 'join',
       //   leave: 'leave',
       //   memberJoined: 'memberJoined',
